@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  node-exporter:
+    build: 
+      context: .
+      args:
+        CONSUL_IP: $(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' consul)
+    restart: always
+    network_mode: bridge
+    ports:
+    - 9101:9100/tcp

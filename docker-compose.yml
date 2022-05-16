@@ -2,6 +2,7 @@ version: "3.9"
 services:
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
     volumes:
       - ${PWD}/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
@@ -21,17 +22,18 @@ services:
     image: hashicorp/consul:1.10.0
     container_name: consul
     restart: always
+    volumes:
+      - ${PWD}/docker-consul-updates.sh:/usr/local/bin/docker-consul-updates.sh
+      - ${PWD}/docker-consul-update.service:/etc/systemd/system/docker-consul-update.service
     expose:
       - "8500" # HTTP API|UI
     networks:
-      - consul
+      - promnet
     ports:
       - "8500:8500"
       - "8600:8600/tcp"
       - "8600:8600/udp"
 
 networks:
-  consul:
-    driver: bridge
   promnet:
     driver: bridge

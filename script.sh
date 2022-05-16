@@ -4,8 +4,8 @@ curl \
   --request PUT \
   ${REGISTER} \
   --data "{
-    \"name\": \"node-exporter_node-exporter-01_1\",
+    \"name\": \"node-exporter-node-exporter-01-1\",
     \"port\":9100,
     \"tags\":[\"node-exporter\", \"prometheus\"],
-    \"address\": \"node-exporter_node-exporter-01_1\"
+    \"address\": \"node-exporter-node-exporter-01-1\"
 }"
