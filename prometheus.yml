@@ -1,24 +1,30 @@
+# my global config
 global:
-  scrape_interval: 1m
-  evaluation_interval: 1m
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+# Alertmanager configuration
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets:
+          # - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+# rule_files:
 
 scrape_configs:
-  # Consul
-  - job_name: consul
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'consul'
     consul_sd_configs:
-      - server: consul:8500
-        datacenter: dc1
-        tags:
-        - foo
-
-  # Self
-  - job_name: "prometheus-server"
-    static_configs:
-      - targets:
-          - "localhost:9090"
-
-  # cAdvisor exports metrics for *all* containers running on this host
-  - job_name: cadvisor
-    static_configs:
-      - targets:
-          - "cadvisor:8080"
+      - server: 'consul-server:8500'
+    relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*,prometheus,.*
+        action: keep
+      - source_labels: [__meta_consul_service]
+        target_label: job
