@@ -35,5 +35,5 @@ In case you want to deploy multiple nodes
 
 ```
 cd nodes
-docker-compose up -scale node_expoter=3
+docker-compose up --scale node-exporter=3
 ```
