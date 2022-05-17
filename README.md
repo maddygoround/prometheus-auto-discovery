@@ -4,7 +4,7 @@ Prometheus - Auto discover nodes using consul.
 A configration solution for Docker hosts and containers with [Prometheus](https://prometheus.io/), [Consul](http://consul.io/) and 
 [NodeExporter](https://github.com/prometheus/node_exporter).
 
-## Install
+## Installation
 Clone this repository on your host, cd into prometheus-auto-discovery directory and ./bootstrap :
 
 ```bash
@@ -40,10 +40,10 @@ docker-compose up --scale node-exporter=3
 
 ## How does it works
 The ```./bootstrap.sh``` deploys promethes and consul server agent.
-promethes takes the confirgration from promethes.yml file.
-promethes.yml is configured to read all the host machine from consul-server's endpoint based on the tag of the host registerd with consul
+prometheus takes the confirgration from promethes.yml file.
+prometheus.yml is configured to read all the host machine from consul-server's endpoint based on the tag of the host registerd with consul
 
-### promethes.yml
+### prometheus.yml
 ```
 global:
   scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
@@ -66,8 +66,17 @@ scrape_configs:
         target_label: job
 ```
 
-The ```docker-compose within the ```./nodes folder deploys the a container which contains node expoter and consul client agent.
+The ```docker-compose``` within the ```./nodes``` folder deploys the a container which contains node expoter and consul client agent.
 
 consul clinet agent register themself with consul-server. To make this happen consul-server and consul-client container (which also contains node expoter) needs to share the same docker network.
 
-Promethes, consul-server and node expoter all share the same doccker network called ```"promnet"
+Prometheus, consul-server and node expoter all share the same doccker network called ```"promnet"```
+
+
+## Authors
+
+- [@maddygoround](https://www.github.com/maddygoround)
+
+
+## License
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/tterb/atomic-design-ui/blob/master/LICENSEs)
