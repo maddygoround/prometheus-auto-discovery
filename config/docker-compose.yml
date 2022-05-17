@@ -4,8 +4,13 @@ services:
     build: 
       context: .
       args:
-        CONSUL_IP: $(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' consul)
+        CONSUL_IP: ${CONSUL_IP}
     restart: always
-    network_mode: bridge
+    networks:
+      - prometheus-auto-discovery_promnet
     ports:
     - 9101:9100/tcp
+
+networks:
+  prometheus-auto-discovery_promnet:
+    external: true

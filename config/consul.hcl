@@ -63,7 +63,7 @@ data_dir = "/opt/consul"
 # -server mode.
 #bootstrap_expect=3
 
-retry_join = [consul]
+# retry_join = [consul]
 # encrypt = "k6rLuMlDiwy0kCnTxd5K1RU1MgAqlkzWIiMlleOdkqk="
 # Specifies the secret key to use for encryption of Consul network traffic. This key must
 # be 32-bytes that are Base64-encoded. The easiest way to create an encryption key is to
