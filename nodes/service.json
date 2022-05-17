@@ -5,6 +5,6 @@
             "node_exporter",
             "prometheus"
         ],
-        "port": 9101
+        "port": 9100
     }
 }

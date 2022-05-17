@@ -6,10 +6,12 @@ services:
       args:
         CONSUL_IP: ${CONSUL_IP}
     restart: always
+    expose:
+      - "9100"
     networks:
       - prometheus-auto-discovery_promnet
-    ports:
-    - 9101:9100/tcp
+    # ports:
+    #   - 9100:9100/tcp
 
 networks:
   prometheus-auto-discovery_promnet:

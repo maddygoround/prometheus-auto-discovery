@@ -8,4 +8,6 @@ ARG CONSUL_IP=latest
 ENV CONSULIP=$CONSUL_IP
 COPY ./consul.hcl /etc/consul.d
 COPY ./service.json /etc/consul.d
-CMD ["./node_exporter/node_exporter"]
+COPY ./script.sh ./
+RUN chmod +x ./script.sh
+CMD ["sh","./script.sh"]
