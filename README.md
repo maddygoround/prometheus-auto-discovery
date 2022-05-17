@@ -37,3 +37,37 @@ In case you want to deploy multiple nodes
 cd nodes
 docker-compose up --scale node-exporter=3
 ```
+
+## How does it works
+The ```./bootstrap.sh``` deploys promethes and consul server agent.
+promethes takes the confirgration from promethes.yml file.
+promethes.yml is configured to read all the host machine from consul-server's endpoint based on the tag of the host registerd with consul
+
+### promethes.yml
+```
+global:
+  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  # scrape_timeout is set to the global default (10s).
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+    - targets: ['localhost:9090']
+
+  - job_name: 'consul'
+    consul_sd_configs:
+      - server: 'consul:8500'
+    relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*,prometheus,.*
+        action: keep
+      - source_labels: [__meta_consul_service]
+        target_label: job
+```
+
+The ```docker-compose within the ```./nodes folder deploys the a container which contains node expoter and consul client agent.
+
+consul clinet agent register themself with consul-server. To make this happen consul-server and consul-client container (which also contains node expoter) needs to share the same docker network.
+
+Promethes, consul-server and node expoter all share the same doccker network called ```"promnet"
